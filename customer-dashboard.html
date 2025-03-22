@@ -3,140 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Customer Dashboard</title>
+    <title>Customer Dashboard (Admin)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f8f8f8;
+            background: linear-gradient(to bottom, #ffeb99, #ffcc66);
+            margin: 0;
+            color: #5a3e1b;
         }
         header {
             background-color: #ff9900;
             color: white;
             padding: 20px;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: bold;
         }
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
             padding: 20px;
+            margin: auto;
+            max-width: 600px;
+            background: white;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
         }
         .button {
             background-color: #ff6600;
             color: white;
-            padding: 10px;
+            padding: 12px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
+            transition: 0.3s;
+            margin-top: 20px;
+            width: 100%;
         }
         .button:hover {
             background-color: #cc5500;
         }
-        #loginBox {
-            display: none;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
-    <header>Admin - Customer Dashboard</header>
 
-    <div id="loginBox" class="container">
-        <h2>Admin Login</h2>
-        <input type="password" id="adminPassword" placeholder="Enter Admin Password">
-        <button class="button" onclick="checkLogin()">Login</button>
-    </div>
+    <header>Customer Dashboard (Admin Only)</header>
 
-    <div id="dashboard" class="container" style="display: none;">
-        <h2>Your Shopping Cart</h2>
-        <table id="cartTable">
-            <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Price (₹)</th>
-                <th>Remove</th>
-            </tr>
-        </table>
-        <p><strong>Total Price: ₹<span id="totalPrice">0</span></strong></p>
+    <div class="container">
+        <h2>Customer Order Details</h2>
+        <p><strong>Name:</strong> <span id="custName"></span></p>
+        <p><strong>Address:</strong> <span id="custAddress"></span></p>
+        <p><strong>Phone:</strong> <span id="custPhone"></span></p>
+        <p><strong>Payment Method:</strong> <span id="custPayment"></span></p>
+
         <button class="button" onclick="goHome()">Back to Home</button>
-        <button class="button" onclick="clearCart()">Clear Cart</button>
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "yourpassword"; // Change this to your real password
+        // Admin Authentication
+        const adminPassword = "YOUR_ADMIN_PASSWORD"; // Change this password
+        let enteredPassword = prompt("Enter Admin Password:");
 
-        function checkLogin() {
-            let inputPassword = document.getElementById("adminPassword").value;
-            if (inputPassword === ADMIN_PASSWORD) {
-                document.getElementById("loginBox").style.display = "none";
-                document.getElementById("dashboard").style.display = "block";
-                loadCart();
-            } else {
-                alert("Incorrect Password! Access Denied.");
-            }
+        if (enteredPassword !== adminPassword) {
+            alert("⚠️ Access Denied! Redirecting to Home.");
+            window.location.href = "index.html";
         }
 
-        function loadCart() {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let cartTable = document.getElementById("cartTable");
-            let totalPrice = 0;
-
-            cartTable.innerHTML = `
-                <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Price (₹)</th>
-                    <th>Remove</th>
-                </tr>`;
-
-            cart.forEach((item, index) => {
-                let row = cartTable.insertRow();
-                row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>₹${item.price * item.quantity}</td>
-                    <td><button class="button" onclick="removeItem(${index})">X</button></td>
-                `;
-                totalPrice += item.price * item.quantity;
-            });
-
-            document.getElementById("totalPrice").textContent = totalPrice;
-        }
-
-        function removeItem(index) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart.splice(index, 1);
-            localStorage.setItem("cart", JSON.stringify(cart));
-            loadCart();
-        }
-
-        function clearCart() {
-            localStorage.removeItem("cart");
-            loadCart();
-        }
+        // Retrieve customer details from localStorage
+        document.getElementById("custName").innerText = localStorage.getItem("customerName") || "N/A";
+        document.getElementById("custAddress").innerText = localStorage.getItem("customerAddress") || "N/A";
+        document.getElementById("custPhone").innerText = localStorage.getItem("customerPhone") || "N/A";
+        document.getElementById("custPayment").innerText = localStorage.getItem("paymentMethod") || "N/A";
 
         function goHome() {
             window.location.href = "index.html";
         }
-
-        // Show login box when page loads
-        window.onload = function () {
-            document.getElementById("loginBox").style.display = "block";
-        };
     </script>
+
 </body>
 </html>
