@@ -55,12 +55,6 @@
         .button:hover {
             background-color: #cc5500;
         }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #ff9900;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -84,8 +78,6 @@
         <button class="button" onclick="goHome()">Back to Home</button>
     </div>
 
-    <footer>Contact Us: Mangoz@Pune | Follow us on Social Media</footer>
-
     <script>
         function processOrder() {
             let name = document.getElementById("name").value;
@@ -101,14 +93,19 @@
             let confirmOrder = confirm(`Confirm order for ${name} at ${address}?`);
             if (!confirmOrder) return;
 
-            // Store customer details in localStorage (so admin can view it)
-            localStorage.setItem("customerName", name);
-            localStorage.setItem("customerAddress", address);
-            localStorage.setItem("customerPhone", phone);
-            localStorage.setItem("paymentMethod", payment);
+            // Retrieve existing orders or initialize an empty array
+            let orders = JSON.parse(localStorage.getItem("customerOrders")) || [];
 
-            // Redirect to Customer Dashboard (admin-only)
-            window.location.href = "thank-you.html";
+            // Add new order
+            orders.push({ name, address, phone, payment });
+
+            // Save updated orders back to localStorage
+            localStorage.setItem("customerOrders", JSON.stringify(orders));
+
+            alert("✅ Order saved successfully!");
+
+            // Redirect to Customer Dashboard
+            window.location.href = "customer-dashboard.html";
         }
 
         function goHome() {
