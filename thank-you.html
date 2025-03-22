@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Your Order!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #ffeb99, #ffcc66);
+            margin: 0;
+            color: #5a3e1b;
+        }
+        header {
+            background-color: #ff9900;
+            color: white;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .container {
+            padding: 40px;
+            margin: auto;
+            max-width: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+        }
+        .mango-image {
+            width: 100px;
+            height: 100px;
+        }
+        .button {
+            background-color: #ff6600;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #cc5500;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ff9900;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>Thank You for Your Order! 🎉</header>
+
+    <div class="container">
+        <img class="mango-image" src="thank-you.png" alt="Thank You">
+        <h2>Your order has been placed successfully! 🍋</h2>
+        <p>We appreciate your purchase and will be in touch with delivery details soon.</p>
+        
+        <button class="button" onclick="goHome()">Return to Homepage</button>
+    </div>
+
+    <footer>Contact Us: Mangoz@Pune | Follow us on Social Media</footer>
+
+    <script>
+        function goHome() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
