@@ -22,11 +22,21 @@
         .container {
             padding: 20px;
             margin: auto;
-            max-width: 600px;
+            max-width: 800px;
             background: white;
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
             margin-top: 50px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
         }
         .button {
             background-color: #ff6600;
@@ -49,18 +59,26 @@
     <header>Customer Dashboard (Admin Only)</header>
 
     <div class="container">
-        <h2>Customer Order Details</h2>
-        <p><strong>Name:</strong> <span id="custName"></span></p>
-        <p><strong>Address:</strong> <span id="custAddress"></span></p>
-        <p><strong>Phone:</strong> <span id="custPhone"></span></p>
-        <p><strong>Payment Method:</strong> <span id="custPayment"></span></p>
+        <h2>All Customer Orders</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Payment</th>
+            </tr>
+            <tbody id="orderTable">
+                <!-- Orders will be loaded here -->
+            </tbody>
+        </table>
 
+        <button class="button" onclick="clearOrders()">Clear All Orders</button>
         <button class="button" onclick="goHome()">Back to Home</button>
     </div>
 
     <script>
         // Admin Authentication
-        const adminPassword = "author@mangoz"; // Change this password
+        const adminPassword = "YOUR_ADMIN_PASSWORD"; // Change this password
         let enteredPassword = prompt("Enter Admin Password:");
 
         if (enteredPassword !== adminPassword) {
@@ -68,11 +86,30 @@
             window.location.href = "index.html";
         }
 
-        // Retrieve customer details from localStorage
-        document.getElementById("custName").innerText = localStorage.getItem("customerName") || "N/A";
-        document.getElementById("custAddress").innerText = localStorage.getItem("customerAddress") || "N/A";
-        document.getElementById("custPhone").innerText = localStorage.getItem("customerPhone") || "N/A";
-        document.getElementById("custPayment").innerText = localStorage.getItem("paymentMethod") || "N/A";
+        // Retrieve orders from localStorage
+        let orders = JSON.parse(localStorage.getItem("customerOrders")) || [];
+
+        // Display orders in table
+        let orderTable = document.getElementById("orderTable");
+        if (orders.length === 0) {
+            orderTable.innerHTML = "<tr><td colspan='4'>No orders placed yet.</td></tr>";
+        } else {
+            orders.forEach(order => {
+                let row = `<tr>
+                    <td>${order.name}</td>
+                    <td>${order.address}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.payment}</td>
+                </tr>`;
+                orderTable.innerHTML += row;
+            });
+        }
+
+        function clearOrders() {
+            localStorage.removeItem("customerOrders");
+            alert("🚀 All orders cleared!");
+            location.reload();
+        }
 
         function goHome() {
             window.location.href = "index.html";
