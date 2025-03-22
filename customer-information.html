@@ -88,58 +88,32 @@
 
     <script>
         function processOrder() {
-            let payment = document.getElementById("paymentMethod").value;
             let name = document.getElementById("name").value;
             let address = document.getElementById("address").value;
             let phone = document.getElementById("phone").value;
+            let payment = document.getElementById("paymentMethod").value;
 
-            if (name === "" || address === "" || phone === "") {
-                alert("Please fill all details before proceeding.");
+            if (!name || !address || !phone) {
+                alert("⚠️ Please fill all details before proceeding.");
                 return;
             }
 
-            if (payment === "upi") {
-                window.location.href = "YOUR_UPI_LINK"; // Replace with actual UPI link
-            } else if (payment === "whatsapp") {
-                window.location.href = "YOUR_WHATSAPP_PAY_LINK"; // Replace with actual WhatsApp Pay link
-            } else if (payment === "card") {
-                payWithRazorpay(name, phone);
-            } else {
-                alert("Order placed! Pay cash on delivery.");
-                window.location.href = "thank-you.html";
-            }
-        }
+            let confirmOrder = confirm(`Confirm order for ${name} at ${address}?`);
+            if (!confirmOrder) return;
 
-        function payWithRazorpay(name, phone) {
-            var options = {
-                "key": "YOUR_RAZORPAY_KEY", // Replace with Razorpay API Key
-                "amount": 150000, // Amount in paise (1500 INR)
-                "currency": "INR",
-                "name": name,
-                "description": "Mango Order Payment",
-                "image": "your_logo.png",
-                "handler": function (response) {
-                    alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-                    window.location.href = "thankyou.html";
-                },
-                "prefill": {
-                    "name": name,
-                    "contact": phone
-                },
-                "theme": {
-                    "color": "#ff9900"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
+            // Store customer details in localStorage (so admin can view it)
+            localStorage.setItem("customerName", name);
+            localStorage.setItem("customerAddress", address);
+            localStorage.setItem("customerPhone", phone);
+            localStorage.setItem("paymentMethod", payment);
+
+            // Redirect to Customer Dashboard (admin-only)
+            window.location.href = "customer-dashboard.html";
         }
 
         function goHome() {
             window.location.href = "index.html";
         }
     </script>
-
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
-
