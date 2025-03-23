@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,19 +28,6 @@
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
             margin-top: 50px;
         }
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
         .button {
             background-color: #ff6600;
             color: white;
@@ -51,9 +38,18 @@
             transition: 0.3s;
             margin-top: 20px;
             width: 100%;
+            text-decoration: none;
+            font-size: 18px;
+            display: inline-block;
         }
         .button:hover {
             background-color: #cc5500;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ff9900;
+            color: white;
         }
     </style>
 </head>
@@ -61,56 +57,13 @@
     <header>Customer Information</header>
 
     <div class="container">
-        <h2>Enter Your Details</h2>
-        <input type="text" id="name" class="input-field" placeholder="Full Name" required>
-        <input type="text" id="address" class="input-field" placeholder="Delivery Address" required>
-        <input type="tel" id="phone" class="input-field" placeholder="Phone Number" required>
-
-        <h3>Select Payment Method</h3>
-        <select id="paymentMethod">
-            <option value="cash">Cash on Delivery</option>
-            <option value="upi">Google Pay (UPI)</option>
-            <option value="whatsapp">WhatsApp Pay</option>
-            <option value="card">Credit/Debit Card</option>
-        </select>
-
-        <button class="button" onclick="processOrder()">Proceed to Payment</button>
-        <button class="button" onclick="goHome()">Back to Home</button>
+        <h2>Fill Your Details</h2>
+        <p>Click the button below to enter your details securely via Google Forms.</p>
+        
+        <a href="https://forms.gle/Krz4inYuahb5vXnt5" target="_blank" class="button">Go to Google Form</a>
+        <a href="index.html" class="button">Back to Home</a>
     </div>
 
-    <script>
-        function processOrder() {
-            let name = document.getElementById("name").value;
-            let address = document.getElementById("address").value;
-            let phone = document.getElementById("phone").value;
-            let payment = document.getElementById("paymentMethod").value;
-
-            if (!name || !address || !phone) {
-                alert("⚠️ Please fill all details before proceeding.");
-                return;
-            }
-
-            let confirmOrder = confirm(`Confirm order for ${name} at ${address}?`);
-            if (!confirmOrder) return;
-
-            // Retrieve existing orders or initialize an empty array
-            let orders = JSON.parse(localStorage.getItem("customerOrders")) || [];
-
-            // Add new order
-            orders.push({ name, address, phone, payment });
-
-            // Save updated orders back to localStorage
-            localStorage.setItem("customerOrders", JSON.stringify(orders));
-
-            alert("✅ Order saved successfully!");
-
-            // Redirect to Customer Dashboard
-            window.location.href = "thank-you.html";
-        }
-
-        function goHome() {
-            window.location.href = "index.html";
-        }
-    </script>
+    <footer>Contact Us: Mangoz@Pune | Follow us on Social Media</footer>
 </body>
 </html>
