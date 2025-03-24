@@ -105,10 +105,28 @@
             });
         }
 
-        function clearOrders() {
-            <a href = "https://docs.google.com/spreadsheets/d/1M0TiUXegFknfjYLq3M9CwiN-mZUl62_ZZaZPprFE9mI/edit?usp=sharing">
-        }
+       function clearOrders() {
+    // Create an anchor element
+    var anchor = document.createElement("a");
+    
+    // Set the href attribute to the desired URL
+    anchor.href = "https://docs.google.com/spreadsheets/d/1M0TiUXegFknfjYLq3M9CwiN-mZUl62_ZZaZPprFE9mI/edit?usp=sharing";
+    
+    // Set the target attribute to open the link in a new tab
+    anchor.target = "_blank";
+    
+    // Optionally, set the inner text of the anchor
+    anchor.innerText = "Open Google Sheets";
 
+    // Append the anchor to the body (or any other container)
+    document.body.appendChild(anchor);
+
+    // Simulate a click on the anchor element to open the link
+    anchor.click();
+
+    // Remove the anchor element after the click
+    document.body.removeChild(anchor);
+}
         function goHome() {
             window.location.href = "index.html";
         }
