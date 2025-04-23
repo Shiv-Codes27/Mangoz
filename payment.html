@@ -1,145 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart & Payment</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background: linear-gradient(to bottom, #ffeb99, #ffcc66);
-            color: #5a3e1b;
-            margin: 0;
-        }
-        header {
-            background-color: #ff9900;
-            color: white;
-            padding: 20px;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .container {
-            padding: 20px;
-            margin: auto;
-            max-width: 600px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-        }
-        table {
-            width: 100%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border: 2px solid #ff9900;
-        }
-        .button {
-            background-color: #ff6600;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 5px;
-        }
-        .button:hover {
-            background-color: #cc5500;
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #ff9900;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <header>Cart & Payment</header>
-    <div class="container">
-        <h2>Your Cart</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Mango Type</th>
-                    <th>Size</th>
-                    <th>Price (₹/dozen)</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="cartItems">
-                <!-- Cart items will be added here dynamically -->
-            </tbody>
-        </table>
+<script>
 
-        <h3>Total Amount: ₹<span id="totalAmount">0</span></h3>
+    function loadCart() {
 
-        <button class="button" onclick="goHome()">Back to Home</button>
-        <button class="button" onclick="checkout()">Proceed to Payment</button>
-    </div>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    <footer>Contact Us: Mangoz@Pune | Follow us on Social Media</footer>
+        let cartTable = document.getElementById("cartItems");
 
-    <script>
-        function loadCart() {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let cartTable = document.getElementById("cartItems");
-            let totalAmount = 0;
-            cartTable.innerHTML = "";
+        let totalAmount = 0;
 
-            if (cart.length === 0) {
-                cartTable.innerHTML = "<tr><td colspan='6'>Your cart is empty!</td></tr>";
-            } else {
-                cart.forEach((item, index) => {
-                    let row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${item.mango}</td>
-                        <td>${item.size}</td>
-                        <td>₹${item.price}</td>
-                        <td>${item.quantity}</td>
-                        <td>₹${item.price * item.quantity}</td>
-                        <td><button class="button" onclick="removeFromCart(${index})">Remove</button></td>
-                    `;
-                    cartTable.appendChild(row);
-                    totalAmount += item.price * item.quantity;
-                });
-            }
+        cartTable.innerHTML = "";
 
-            document.getElementById("totalAmount").innerText = totalAmount;
+
+
+        if (cart.length === 0) {
+
+            cartTable.innerHTML = "<tr><td colspan='6'>Your cart is empty!</td></tr>";
+
+        } else {
+
+            cart.forEach((item, index) => {
+
+                let price = getPrice(item.mango, item.size);
+
+                let row = document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>${item.mango}</td>
+
+                    <td>${item.size}</td>
+
+                    <td>₹${price}</td>
+
+                    <td>${item.quantity}</td>
+
+                    <td>₹${price * item.quantity}</td>
+
+                    <td><button class="button" onclick="removeFromCart(${index})">Remove</button></td>
+
+                `;
+
+                cartTable.appendChild(row);
+
+                totalAmount += price * item.quantity;
+
+            });
+
         }
 
-        function removeFromCart(index) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            if (cart[index].quantity > 1) {
-                cart[index].quantity -= 1;
-            } else {
-                cart.splice(index, 1);
-            }
-            localStorage.setItem("cart", JSON.stringify(cart));
-            loadCart();
+
+
+        document.getElementById("totalAmount").innerText = totalAmount;
+
+    }
+
+
+
+    function getPrice(mango, size) {
+
+        const prices = {
+
+            "Devgad Mango": { small: 800, medium: 900, large: 1000 },
+
+            "Ratnagiri Mango": { small: 700, medium: 800, large: 900 }
+
+        };
+
+
+
+        // Normalize input to handle inconsistent casing or spaces
+
+        const mangoType = mango.trim();
+
+        const sizeKey = size.trim().toLowerCase();
+
+
+
+        return prices[mangoType]?.[sizeKey] || 0;
+
+    }
+
+
+
+    function removeFromCart(index) {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if (cart[index].quantity > 1) {
+
+            cart[index].quantity -= 1;
+
+        } else {
+
+            cart.splice(index, 1);
+
         }
 
-        function goHome() {
-            window.location.href = "index.html";
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        loadCart();
+
+    }
+
+
+
+    function goHome() {
+
+        window.location.href = "index.html";
+
+    }
+
+
+
+    function checkout() {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if (cart.length === 0) {
+
+            alert("Your cart is empty. Add some mangoes first!");
+
+            return;
+
         }
 
-        function checkout() {
-            if (localStorage.getItem("cart") === "[]") {
-                alert("Your cart is empty. Add some mangoes first!");
-                return;
-            }
-            alert("Redirecting to payment gateway...");
-            localStorage.removeItem("cart"); // Clear cart after checkout
-            window.location.href = "customer-information.html"; // Redirect to Thank You page
-        }
+        alert("Redirecting to payment gateway...");
 
-        window.onload = loadCart;
-    </script>
-</body>
-</html>
+        window.location.href = "customer-information.html";
+
+    }
+
+
+
+    window.onload = loadCart;
+
+</script>
