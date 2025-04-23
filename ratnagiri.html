@@ -1,151 +1,149 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ratnagiri Mango Details</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background: linear-gradient(to bottom, #ffeb99, #ffcc66);
-            color: #5a3e1b;
-            margin: 0;
-        }
-        header {
-            background-color: #ff9900;
-            color: white;
-            padding: 20px;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .container {
-            padding: 20px;
-            margin: auto;
-            max-width: 600px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-        }
-        img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        table {
-            width: 100%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border: 2px solid #ff9900;
-        }
-        .button {
-            background-color: #ff6600;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 5px;
-        }
-        .button:hover {
-            background-color: #cc5500;
-        }
-        footer {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #ff9900;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ratnagiri Mango Details</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #ffeb99, #ffcc66);
+      color: #5a3e1b;
+      margin: 0;
+    }
+    header {
+      background-color: #ff9900;
+      color: white;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+      margin: auto;
+      max-width: 600px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    }
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    table {
+      width: 100%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 2px solid #ff9900;
+    }
+    .button {
+      background-color: #ff6600;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 5px;
+    }
+    .button:hover {
+      background-color: #cc5500;
+    }
+    footer {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #ff9900;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-    <header>Ratnagiri Mango Details</header>
-    <div class="container">
-        <img src="ratnagiri.png" alt="Ratnagiri Mango">
-        <h2>Pricing Table</h2>
-        <table>
-            <tr>
-                <th>Size</th>
-                <th>Price (₹/dozen)</th>
-                <th>Action</th>
-            </tr>
-            <tr>
-                <td>Small</td>
-                <td>₹700</td>
-                <td>
-                    <button class="button" onclick="addToCart('Ratnagiri', 'Small', 900)">Add to Cart</button>
-                    <button class="button" onclick="removeFromCart('Ratnagiri', 'Small')">Remove</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Medium</td>
-                <td>₹800</td>
-                <td>
-                    <button class="button" onclick="addToCart('Ratnagiri', 'Medium', 1100)">Add to Cart</button>
-                    <button class="button" onclick="removeFromCart('Ratnagiri', 'Medium')">Remove</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Large</td>
-                <td>₹900</td>
-                <td>
-                    <button class="button" onclick="addToCart('Ratnagiri', 'Large', 1400)">Add to Cart</button>
-                    <button class="button" onclick="removeFromCart('Ratnagiri', 'Large')">Remove</button>
-                </td>
-            </tr>
-        </table>
+  <header>Ratnagiri Mango Details</header>
+  <div class="container">
+    <img src="ratnagiri.png" alt="Ratnagiri Mango">
+    <h2>Pricing Table</h2>
+    <table>
+      <tr>
+        <th>Size</th>
+        <th>Price (₹/dozen)</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>Small</td>
+        <td>₹700</td>
+        <td>
+          <button class="button" onclick="addToCart('Ratnagiri Mango', 'Small', 700)">Add to Cart</button>
+          <button class="button" onclick="removeFromCart('Ratnagiri Mango', 'Small')">Remove</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Medium</td>
+        <td>₹800</td>
+        <td>
+          <button class="button" onclick="addToCart('Ratnagiri Mango', 'Medium', 800)">Add to Cart</button>
+          <button class="button" onclick="removeFromCart('Ratnagiri Mango', 'Medium')">Remove</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Large</td>
+        <td>₹900</td>
+        <td>
+          <button class="button" onclick="addToCart('Ratnagiri Mango', 'Large', 900)">Add to Cart</button>
+          <button class="button" onclick="removeFromCart('Ratnagiri Mango', 'Large')">Remove</button>
+        </td>
+      </tr>
+    </table>
 
-        <button class="button" onclick="goHome()">Back to Home</button>
-        <button class="button" onclick="goToCart()">Go to Cart 🛒</button>
-    </div>
+    <button class="button" onclick="goHome()">Back to Home</button>
+    <button class="button" onclick="goToCart()">Go to Cart 🛒</button>
+  </div>
 
-    <footer>*Rates are subject to vary as per the market trends and stock<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
+  <footer>*Rates are subject to vary as per the market trends and stock<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
-    <script>
-        function addToCart(mango, size, price) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let existingItem = cart.find(item => item.mango === mango && item.size === size);
+  <script>
+    function addToCart(mango, size, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let existingItem = cart.find(item => item.mango === mango && item.size === size);
 
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ mango, size, price, quantity: 1 });
-            }
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ mango, size, price, quantity: 1 });
+      }
 
-            localStorage.setItem("cart", JSON.stringify(cart));
-            alert(mango + " (" + size + ") added to cart!");
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(mango + " (" + size + ") added to cart!");
+    }
+
+    function removeFromCart(mango, size) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let index = cart.findIndex(item => item.mango === mango && item.size === size);
+
+      if (index !== -1) {
+        if (cart[index].quantity > 1) {
+          cart[index].quantity -= 1;
+        } else {
+          cart.splice(index, 1);
         }
+      }
 
-        function removeFromCart(mango, size) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let index = cart.findIndex(item => item.mango === mango && item.size === size);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(mango + " (" + size + ") removed from cart.");
+    }
 
-            if (index !== -1) {
-                if (cart[index].quantity > 1) {
-                    cart[index].quantity -= 1;
-                } else {
-                    cart.splice(index, 1);
-                }
-            }
+    function goHome() {
+      window.location.href = "index.html";
+    }
 
-            localStorage.setItem("cart", JSON.stringify(cart));
-            alert(mango + " (" + size + ") removed from cart.");
-        }
-
-        function goHome() {
-            window.location.href = "index.html";
-        }
-
-        function goToCart() {
-            window.location.href = "payment.html";
-        }
-    </script>
+    function goToCart() {
+      window.location.href = "payment.html";
+    }
+  </script>
 </body>
 </html>
-
