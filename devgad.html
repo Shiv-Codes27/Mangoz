@@ -66,7 +66,7 @@
 <body>
   <header>Devgad Mango Details</header>
   <div class="container">
-    <img src="Devgari.png" alt="Devgad Mango" />
+    <img src="Devgari.png" alt="Devgad Mango">
     <h2>Pricing Table</h2>
     <table>
       <tr>
@@ -78,7 +78,7 @@
         <td>Small</td>
         <td>₹800</td>
         <td>
-          <button class="button" onclick="addToCart('Devgad Mango', 'Small')">Add to Cart</button>
+          <button class="button" onclick="addToCart('Devgad Mango', 'Small', 800)">Add to Cart</button>
           <button class="button" onclick="removeFromCart('Devgad Mango', 'Small')">Remove</button>
         </td>
       </tr>
@@ -86,7 +86,7 @@
         <td>Medium</td>
         <td>₹900</td>
         <td>
-          <button class="button" onclick="addToCart('Devgad Mango', 'Medium')">Add to Cart</button>
+          <button class="button" onclick="addToCart('Devgad Mango', 'Medium', 900)">Add to Cart</button>
           <button class="button" onclick="removeFromCart('Devgad Mango', 'Medium')">Remove</button>
         </td>
       </tr>
@@ -94,38 +94,31 @@
         <td>Large</td>
         <td>₹1000</td>
         <td>
-          <button class="button" onclick="addToCart('Devgad Mango', 'Large')">Add to Cart</button>
+          <button class="button" onclick="addToCart('Devgad Mango', 'Large', 1000)">Add to Cart</button>
           <button class="button" onclick="removeFromCart('Devgad Mango', 'Large')">Remove</button>
         </td>
       </tr>
     </table>
+
     <button class="button" onclick="goHome()">Back to Home</button>
     <button class="button" onclick="goToCart()">Go to Cart 🛒</button>
   </div>
-  <footer>*Rates may vary as per market trends<br>Contact Us: 9422695945</footer>
+
+  <footer>*Rates are subject to vary as per the market trends and stock<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
   <script>
-    function getPrice(mango, size) {
-      const prices = {
-        "Devgad Mango": { small: 800, medium: 900, large: 1000 },
-        "Ratnagiri Mango": { small: 700, medium: 800, large: 900 }
-      };
-      return prices[mango]?.[size.toLowerCase()] || 0;
-    }
-
-    function addToCart(mango, size) {
-      const price = getPrice(mango, size);
+    function addToCart(mango, size, price) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let existing = cart.find(item => item.mango === mango && item.size === size);
+      let existingItem = cart.find(item => item.mango === mango && item.size === size);
 
-      if (existing) {
-        existing.quantity += 1;
+      if (existingItem) {
+        existingItem.quantity += 1;
       } else {
-        cart.push({ mango, size, quantity: 1 });
+        cart.push({ mango, size, price, quantity: 1 });
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`${mango} (${size}) added to cart!`);
+      alert(mango + " (" + size + ") added to cart!");
     }
 
     function removeFromCart(mango, size) {
@@ -138,9 +131,10 @@
         } else {
           cart.splice(index, 1);
         }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        alert(`${mango} (${size}) removed from cart.`);
       }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(mango + " (" + size + ") removed from cart.");
     }
 
     function goHome() {
