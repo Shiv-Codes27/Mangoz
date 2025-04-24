@@ -10,6 +10,8 @@
       font-family: 'Poppins', sans-serif;
       background-color: #fdf6f0;
       color: #4a3f35;
+      border: 6px solid #ffd699;
+      box-sizing: border-box;
     }
 
     header {
@@ -29,6 +31,7 @@
       background-color: #fffaf5;
       border-radius: 12px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      border: 2px dashed #ffcf91;
     }
 
     table {
@@ -84,6 +87,21 @@
       margin: 0 0.5rem;
     }
 
+    footer {
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      background-color: #ffb347;
+      color: white;
+      font-size: 0.95rem;
+      border-top: 4px solid #ffd699;
+    }
+
+    .availability-toggle {
+      text-align: center;
+      margin: 1rem;
+    }
+
     @media (max-width: 600px) {
       table, thead, tbody, th, td, tr {
         display: block;
@@ -127,7 +145,11 @@
 </head>
 <body>
   <header>Your Mango Cart</header>
-  <div class="container">
+  <div class="availability-toggle">
+    <input type="password" id="adminCode" placeholder="Enter admin code" />
+    <button class="button" onclick="verifyAdmin()">Toggle Mango Availability</button>
+  </div>
+  <div class="container" id="cartContainer">
     <table>
       <thead>
         <tr>
@@ -152,7 +174,29 @@
     </div>
   </div>
 
+  <footer>
+    *Prices may vary depending on market trends.<br>
+    Contact us at: <strong>9422695945</strong>
+  </footer>
+
   <script>
+    let isAvailable = true;
+    const ADMIN_CODE = "1827"; // You can change this code to whatever you want
+
+    function verifyAdmin() {
+      const input = document.getElementById("adminCode").value;
+      if (input === ADMIN_CODE) {
+        toggleAvailability();
+      } else {
+        alert("Incorrect admin code!");
+      }
+    }
+
+    function toggleAvailability() {
+      isAvailable = !isAvailable;
+      document.getElementById("cartContainer").style.display = isAvailable ? "block" : "none";
+    }
+
     function loadCart() {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
       const cartTable = document.getElementById("cartItems");
