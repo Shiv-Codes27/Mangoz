@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shopping Cart</title>
+  <title>Devgad Mango Details</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
       text-align: center;
-      background: #fff;
-      color: #333;
+      background: linear-gradient(to bottom, #fbe8a6, #f8c48f);
+      color: #5a3e1b;
       margin: 0;
     }
-    .container {
+    header {
+      background-color: #ff7f32;
+      color: white;
       padding: 20px;
-      max-width: 600px;
+      font-size: 32px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .container {
+      padding: 30px;
       margin: auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      background: #fff4e6;
+      border-radius: 15px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
     }
     table {
       width: 100%;
@@ -26,93 +42,126 @@
       border-collapse: collapse;
     }
     th, td {
-      padding: 12px;
+      padding: 14px;
       text-align: center;
-      border: 2px solid #ff9900;
+      border: 2px solid #ff7f32;
+      font-size: 18px;
+    }
+    th {
+      background-color: #ff7f32;
+      color: white;
     }
     .button {
-      background-color: #ff6600;
+      background-color: #ff7f32;
       color: white;
       padding: 12px 20px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       transition: 0.3s;
-      margin: 5px;
+      margin: 10px 5px;
     }
     .button:hover {
-      background-color: #cc5500;
+      background-color: #cc6633;
+    }
+    footer {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #ff7f32;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+    }
+    .mango-item {
+      background-color: #fff0e0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
-  <header>Shopping Cart</header>
+  <header>Devgad Mango Details</header>
   <div class="container">
-    <h2>Your Cart</h2>
-    <table id="cart-table">
+    <img src="Devgari.png" alt="Devgad Mango">
+    <h2>Pricing Table</h2>
+    <table>
       <tr>
-        <th>Item</th>
         <th>Size</th>
-        <th>Price (₹)</th>
-        <th>Quantity</th>
+        <th>Price (₹/dozen)</th>
         <th>Action</th>
       </tr>
-      <!-- Cart items will be inserted here dynamically -->
+      <tr class="mango-item">
+        <td>Small</td>
+        <td>₹800</td>
+        <td>
+          <button class="button" onclick="addToCart('Devgad Mango', 'Small', 800)">Add to Cart</button>
+          <button class="button" onclick="removeFromCart('Devgad Mango', 'Small')">Remove</button>
+        </td>
+      </tr>
+      <tr class="mango-item">
+        <td>Medium</td>
+        <td>₹900</td>
+        <td>
+          <button class="button" onclick="addToCart('Devgad Mango', 'Medium', 900)">Add to Cart</button>
+          <button class="button" onclick="removeFromCart('Devgad Mango', 'Medium')">Remove</button>
+        </td>
+      </tr>
+      <tr class="mango-item">
+        <td>Large</td>
+        <td>₹1000</td>
+        <td>
+          <button class="button" onclick="addToCart('Devgad Mango', 'Large', 1000)">Add to Cart</button>
+          <button class="button" onclick="removeFromCart('Devgad Mango', 'Large')">Remove</button>
+        </td>
+      </tr>
     </table>
 
-    <button class="button" onclick="goBack()">Back to Mango Details</button>
-    <button class="button" onclick="checkout()">Proceed to Checkout</button>
+    <button class="button" onclick="goHome()">Back to Home</button>
+    <button class="button" onclick="goToCart()">Go to Cart 🛒</button>
   </div>
 
-  <script>
-    // Function to populate the cart
-    function populateCart() {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let cartTable = document.getElementById("cart-table");
+  <footer>*Rates are subject to vary as per the market trends and stock<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
-      if (cart.length === 0) {
-        cartTable.innerHTML += `<tr><td colspan="5">Your cart is empty!</td></tr>`;
-        return;
+  <script>
+    function addToCart(mango, size, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let existingItem = cart.find(item => item.mango === mango && item.size === size);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ mango, size, price, quantity: 1 });
       }
 
-      cart.forEach(item => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${item.mango}</td>
-          <td>${item.size}</td>
-          <td>${item.price}</td>
-          <td>${item.quantity}</td>
-          <td><button class="button" onclick="removeItem('${item.mango}', '${item.size}')">Remove</button></td>
-        `;
-        cartTable.appendChild(row);
-      });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(mango + " (" + size + ") added to cart!");
     }
 
-    // Function to remove an item from the cart
-    function removeItem(mango, size) {
+    function removeFromCart(mango, size) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       let index = cart.findIndex(item => item.mango === mango && item.size === size);
 
       if (index !== -1) {
-        cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        populateCart(); // Re-populate the cart after removing
+        if (cart[index].quantity > 1) {
+          cart[index].quantity -= 1;
+        } else {
+          cart.splice(index, 1);
+        }
       }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(mango + " (" + size + ") removed from cart.");
     }
 
-    // Navigate back to the details page
-    function goBack() {
-      window.location.href = "DevgadDetails.html";
+    function goHome() {
+      window.location.href = "index.html";
     }
 
-    // Proceed to checkout
-    function checkout() {
-      // Implement checkout logic here (e.g., navigate to a checkout page)
-      alert("Proceeding to checkout...");
+    function goToCart() {
+      window.location.href = "payment.html";
     }
-
-    // Load the cart when the page loads
-    window.onload = populateCart;
   </script>
 </body>
 </html>
