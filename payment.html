@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart - Devgad Mango</title>
+  <title>Shopping Cart - Devgad Mango</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -30,17 +30,6 @@
       border-radius: 15px;
       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
       text-align: left;
-    }
-    .cart-items {
-      margin: 20px 0;
-      text-align: left;
-    }
-    .cart-item {
-      background-color: #fff3e0;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 10px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
     table {
       width: 100%;
@@ -88,42 +77,52 @@
 <body>
   <header>Devgad Mango - Your Cart</header>
   <div class="container">
-    <h2>Review Your Cart</h2>
-    
-    <div class="cart-items" id="cartItems">
-      <!-- Cart items will be dynamically populated here -->
-    </div>
+    <h2>Your Cart</h2>
+    <table id="cart-table">
+      <tr>
+        <th>Item</th>
+        <th>Size</th>
+        <th>Price (₹)</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+      <!-- Cart items will be inserted here dynamically -->
+    </table>
 
     <div class="total">
       Total: ₹<span id="totalPrice">0</span>
     </div>
 
     <div>
-      <button class="button" onclick="goBack()">Continue Shopping</button>
-      <button class="button" onclick="proceedToCheckout()">Proceed to Checkout</button>
+      <button class="button" onclick="goBack()">Back to Mango Details</button>
+      <button class="button" onclick="checkout()">Proceed to Checkout</button>
     </div>
   </div>
 
   <footer>*Delivery charges may apply.<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
   <script>
-    // Function to load cart from local storage and display cart items
-    function loadCart() {
+    // Function to populate the cart
+    function populateCart() {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let cartItemsContainer = document.getElementById("cartItems");
+      let cartTable = document.getElementById("cart-table");
       let totalPrice = 0;
 
-      cartItemsContainer.innerHTML = ''; // Clear the previous cart items
+      if (cart.length === 0) {
+        cartTable.innerHTML += `<tr><td colspan="5">Your cart is empty!</td></tr>`;
+        return;
+      }
 
       cart.forEach(item => {
-        let itemRow = document.createElement("div");
-        itemRow.classList.add("cart-item");
-        itemRow.innerHTML = `
-          <strong>${item.mango} (${item.size})</strong><br>
-          Price: ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}<br>
-          <button class="button" onclick="removeFromCart('${item.mango}', '${item.size}')">Remove</button>
+        let row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.mango}</td>
+          <td>${item.size}</td>
+          <td>₹${item.price}</td>
+          <td>${item.quantity}</td>
+          <td><button class="button" onclick="removeItem('${item.mango}', '${item.size}')">Remove</button></td>
         `;
-        cartItemsContainer.appendChild(itemRow);
+        cartTable.appendChild(row);
         totalPrice += item.price * item.quantity;
       });
 
@@ -131,32 +130,31 @@
       document.getElementById("totalPrice").textContent = totalPrice;
     }
 
-    function removeFromCart(mango, size) {
+    // Function to remove an item from the cart
+    function removeItem(mango, size) {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       let index = cart.findIndex(item => item.mango === mango && item.size === size);
 
       if (index !== -1) {
-        if (cart[index].quantity > 1) {
-          cart[index].quantity -= 1;
-        } else {
-          cart.splice(index, 1);
-        }
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        populateCart(); // Re-populate the cart after removing
       }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      loadCart();  // Reload the cart to reflect changes
     }
 
+    // Navigate back to the details page
     function goBack() {
-      window.location.href = "index.html";  // Go back to the main shop page
+      window.location.href = "DevgadDetails.html";
     }
 
-    function proceedToCheckout() {
-      window.location.href = "customer-information.html";  // Proceed to the checkout page
+    // Proceed to checkout
+    function checkout() {
+      // Implement checkout logic here (e.g., navigate to a checkout page)
+      alert("Proceeding to checkout...");
     }
 
-    // Load cart on page load
-    window.onload = loadCart;
+    // Load the cart when the page loads
+    window.onload = populateCart;
   </script>
 </body>
 </html>
