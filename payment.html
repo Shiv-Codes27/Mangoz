@@ -1,163 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #fffbe6;
-            color: #333;
-        }
-        header {
-            background-color: #ffa500;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .container {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ffa500;
-            text-align: center;
-        }
-        th {
-            background-color: #ffe0b3;
-        }
-        .button {
-            padding: 10px 15px;
-            background-color: #ff6600;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #cc5200;
-        }
-        .total {
-            margin-top: 20px;
-            font-size: 20px;
-            text-align: right;
-        }
-        .actions {
-            margin-top: 20px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Mango Cart</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fdf6f0;
+      color: #4a3f35;
+    }
+
+    header {
+      background-color: #ffb347;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 2rem;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background-color: #fffaf5;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #f0e6dd;
+    }
+
+    th {
+      background-color: #ffe5b4;
+      color: #5a4e42;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .button {
+      padding: 0.6rem 1.2rem;
+      background-color: #ff8c42;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #e07b39;
+    }
+
+    .total {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .actions {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .actions .button {
+      margin: 0 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      tr {
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #f0e6dd;
+      }
+
+      td {
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+      }
+
+      td::before {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: 45%;
+        padding-right: 1rem;
+        white-space: nowrap;
+        font-weight: 600;
+      }
+
+      td:nth-of-type(1)::before { content: "Mango Type"; }
+      td:nth-of-type(2)::before { content: "Size"; }
+      td:nth-of-type(3)::before { content: "Price (₹)"; }
+      td:nth-of-type(4)::before { content: "Quantity"; }
+      td:nth-of-type(5)::before { content: "Total (₹)"; }
+      td:nth-of-type(6)::before { content: "Action"; }
+    }
+  </style>
 </head>
 <body>
-    <header>Your Mango Cart</header>
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Mango Type</th>
-                    <th>Size</th>
-                    <th>Price (₹)</th>
-                    <th>Quantity</th>
-                    <th>Total (₹)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="cartItems">
-                <!-- Items will be injected here -->
-            </tbody>
-        </table>
-        <div class="total">
-            Grand Total: <span id="totalAmount">₹0</span>
-        </div>
-        <div class="actions">
-            <button class="button" onclick="goHome()">Back to Home</button>
-            <button class="button" onclick="checkout()">Checkout</button>
-        </div>
+  <header>Your Mango Cart</header>
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Mango Type</th>
+          <th>Size</th>
+          <th>Price (₹)</th>
+          <th>Quantity</th>
+          <th>Total (₹)</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="cartItems">
+        <!-- Items will be injected here -->
+      </tbody>
+    </table>
+    <div class="total">
+      Grand Total: <span id="totalAmount">₹0</span>
     </div>
+    <div class="actions">
+      <button class="button" onclick="goHome()">Back to Home</button>
+      <button class="button" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
 
-    <script>
-        function loadCart() {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const cartTable = document.getElementById("cartItems");
-            const totalAmountEl = document.getElementById("totalAmount");
-            cartTable.innerHTML = "";
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const cartTable = document.getElementById("cartItems");
+      const totalAmountEl = document.getElementById("totalAmount");
+      cartTable.innerHTML = "";
 
-            let totalAmount = 0;
+      let totalAmount = 0;
 
-            if (cart.length === 0) {
-                cartTable.innerHTML = "<tr><td colspan='6'>Your cart is empty!</td></tr>";
-                totalAmountEl.innerText = "₹0";
-                return;
-            }
+      if (cart.length === 0) {
+        cartTable.innerHTML = "<tr><td colspan='6'>Your cart is empty!</td></tr>";
+        totalAmountEl.innerText = "₹0";
+        return;
+      }
 
-            cart.forEach((item, index) => {
-                const price = getPrice(item.mango, item.size);
-                const subtotal = price * item.quantity;
-                totalAmount += subtotal;
+      cart.forEach((item, index) => {
+        const price = getPrice(item.mango, item.size);
+        const subtotal = price * item.quantity;
+        totalAmount += subtotal;
 
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${item.mango}</td>
-                    <td>${item.size}</td>
-                    <td>₹${price.toLocaleString()}</td>
-                    <td>${item.quantity}</td>
-                    <td>₹${subtotal.toLocaleString()}</td>
-                    <td><button class="button" onclick="removeFromCart(${index})">Remove</button></td>
-                `;
-                cartTable.appendChild(row);
-            });
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.mango}</td>
+          <td>${item.size}</td>
+          <td>₹${price.toLocaleString()}</td>
+          <td>${item.quantity}</td>
+          <td>₹${subtotal.toLocaleString()}</td>
+          <td><button class="button" onclick="removeFromCart(${index})">Remove</button></td>
+        `;
+        cartTable.appendChild(row);
+      });
 
-            totalAmountEl.innerText = `₹${totalAmount.toLocaleString()}`;
-        }
+      totalAmountEl.innerText = `₹${totalAmount.toLocaleString()}`;
+    }
 
-        function getPrice(mango, size) {
-            const prices = {
-                "Devgad": { small: 800, medium: 900, large: 1000 },
-                "Ratnagiri": { small: 700, medium: 800, large: 900 }
-            };
+    function getPrice(mango, size) {
+      const prices = {
+        "Devgad": { small: 800, medium: 900, large: 1000 },
+        "Ratnagiri": { small: 700, medium: 800, large: 900 }
+      };
 
-            const mangoType = mango.trim();
-            const sizeKey = size.trim().toLowerCase();
-            return prices[mangoType]?.[sizeKey] || 0;
-        }
+      const mangoType = mango.trim();
+      const sizeKey = size.trim().toLowerCase();
+      return prices[mangoType]?.[sizeKey] || 0;
+    }
 
-        function removeFromCart(index) {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            if (cart[index].quantity > 1) {
-                cart[index].quantity -= 1;
-            } else {
-                cart.splice(index, 1);
-            }
-            localStorage.setItem("cart", JSON.stringify(cart));
-            loadCart();
-        }
+    function removeFromCart(index) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
 
-        function goHome() {
-            window.location.href = "index.html";
-        }
+    function goHome() {
+      window.location.href = "index.html";
+    }
 
-        function checkout() {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            if (cart.length === 0) {
-                alert("Your cart is empty. Add some mangoes first!");
-                return;
-            }
-            alert("Redirecting to customer information form...");
-            window.location.href = "customer-information.html";
-        }
-
-        window.onload = loadCart;
-    </script>
-</body>
-</html>
+    function checkout() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if
+::contentReference[oaicite:0]{index=0}
+ 
