@@ -7,29 +7,25 @@
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      text-align: center;
       background: linear-gradient(to bottom, #ffeb99, #ffcc66);
       color: #5a3e1b;
       margin: 0;
     }
     header {
-      background-color: #ff7f32;
+      background-color: #ff9900;
       color: white;
       padding: 20px;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
     .container {
-      padding: 30px;
+      padding: 20px;
+      max-width: 600px;
       margin: auto;
-      max-width: 800px;
-      background: #fff7e1;
-      border-radius: 15px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-      text-align: left;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     }
     table {
       width: 100%;
@@ -39,43 +35,25 @@
     th, td {
       padding: 12px;
       text-align: center;
-      border: 2px solid #ff7f32;
-      font-size: 18px;
-    }
-    th {
-      background-color: #ff7f32;
-      color: white;
+      border: 2px solid #ff9900;
     }
     .button {
-      background-color: #ff7f32;
+      background-color: #ff6600;
       color: white;
       padding: 12px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 5px;
       cursor: pointer;
       transition: 0.3s;
-      margin: 10px 5px;
+      margin: 5px;
     }
     .button:hover {
-      background-color: #cc6633;
-    }
-    footer {
-      margin-top: 30px;
-      padding: 15px;
-      background-color: #ff7f32;
-      color: white;
-      font-size: 16px;
-      text-align: center;
-    }
-    .total {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 20px;
+      background-color: #cc5500;
     }
   </style>
 </head>
 <body>
-  <header>Cart</header>
+  <header>Shopping Cart</header>
   <div class="container">
     <h2>Your Cart</h2>
     <table id="cart-table">
@@ -89,24 +67,15 @@
       <!-- Cart items will be inserted here dynamically -->
     </table>
 
-    <div class="total">
-      Total: ₹<span id="totalPrice">0</span>
-    </div>
-
-    <div>
-      <button class="button" onclick="goBack()">Back to Mango Details</button>
-      <button class="button" onclick="checkout()">Proceed to Checkout</button>
-    </div>
+    <button class="button" onclick="goBack()">Back to Mango Details</button>
+    <button class="button" onclick="checkout()">Proceed to Checkout</button>
   </div>
-
-  <footer>*Delivery charges may apply.<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
   <script>
     // Function to populate the cart
     function populateCart() {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       let cartTable = document.getElementById("cart-table");
-      let totalPrice = 0;
 
       if (cart.length === 0) {
         cartTable.innerHTML += `<tr><td colspan="5">Your cart is empty!</td></tr>`;
@@ -118,16 +87,12 @@
         row.innerHTML = `
           <td>${item.mango}</td>
           <td>${item.size}</td>
-          <td>₹${item.price}</td>
+          <td>${item.price}</td>
           <td>${item.quantity}</td>
           <td><button class="button" onclick="removeItem('${item.mango}', '${item.size}')">Remove</button></td>
         `;
         cartTable.appendChild(row);
-        totalPrice += item.price * item.quantity;
       });
-
-      // Update total price
-      document.getElementById("totalPrice").textContent = totalPrice;
     }
 
     // Function to remove an item from the cart
@@ -149,8 +114,7 @@
 
     // Proceed to checkout
     function checkout() {
-      // Implement checkout logic here (e.g., navigate to a checkout page)
-      alert("Proceeding to checkout...");
+      window.location.href = "customer-information.html";
     }
 
     // Load the cart when the page loads
