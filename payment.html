@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Payment - Devgad Mango</title>
+  <title>Cart - Devgad Mango</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -83,18 +83,10 @@
       font-weight: bold;
       margin-top: 20px;
     }
-    .form-input {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 2px solid #ff7f32;
-      border-radius: 5px;
-      font-size: 16px;
-    }
   </style>
 </head>
 <body>
-  <header>Devgad Mango - Checkout</header>
+  <header>Devgad Mango - Your Cart</header>
   <div class="container">
     <h2>Review Your Cart</h2>
     
@@ -105,20 +97,14 @@
     <div class="total">
       Total: ₹<span id="totalPrice">0</span>
     </div>
-    
-    <h3>Enter Your Payment Details</h3>
-    <form>
-      <input type="text" class="form-input" placeholder="Full Name" required><br>
-      <input type="text" class="form-input" placeholder="Address" required><br>
-      <input type="email" class="form-input" placeholder="Email" required><br>
-      <input type="tel" class="form-input" placeholder="Phone Number" required><br>
-      <button type="submit" class="button">Proceed to Payment</button>
-    </form>
 
-    <button class="button" onclick="goBack()">Back to Cart</button>
+    <div>
+      <button class="button" onclick="goBack()">Continue Shopping</button>
+      <button class="button" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    </div>
   </div>
 
-  <footer>*Payment and delivery options are subject to availability.<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
+  <footer>*Delivery charges may apply.<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
   <script>
     // Function to load cart from local storage and display cart items
@@ -134,7 +120,8 @@
         itemRow.classList.add("cart-item");
         itemRow.innerHTML = `
           <strong>${item.mango} (${item.size})</strong><br>
-          Price: ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}
+          Price: ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}<br>
+          <button class="button" onclick="removeFromCart('${item.mango}', '${item.size}')">Remove</button>
         `;
         cartItemsContainer.appendChild(itemRow);
         totalPrice += item.price * item.quantity;
@@ -144,8 +131,28 @@
       document.getElementById("totalPrice").textContent = totalPrice;
     }
 
+    function removeFromCart(mango, size) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let index = cart.findIndex(item => item.mango === mango && item.size === size);
+
+      if (index !== -1) {
+        if (cart[index].quantity > 1) {
+          cart[index].quantity -= 1;
+        } else {
+          cart.splice(index, 1);
+        }
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();  // Reload the cart to reflect changes
+    }
+
     function goBack() {
-      window.location.href = "index.html";
+      window.location.href = "index.html";  // Go back to the main shop page
+    }
+
+    function proceedToCheckout() {
+      window.location.href = "customer-information.html";  // Proceed to the checkout page
     }
 
     // Load cart on page load
