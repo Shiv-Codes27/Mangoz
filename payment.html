@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shopping Cart</title>
+  <title>Cart</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
+      text-align: center;
       background: linear-gradient(to bottom, #ffeb99, #ffcc66);
       color: #5a3e1b;
       margin: 0;
     }
     header {
-      background-color: #ff9900;
+      background-color: #ff7f32;
       color: white;
       padding: 20px;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
-      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
     .container {
-      padding: 20px;
-      max-width: 600px;
+      padding: 30px;
       margin: auto;
-      background: white;
+      max-width: 800px;
+      background: #fff7e1;
+      border-radius: 15px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    .cart-items {
+      margin: 20px 0;
+      text-align: left;
+    }
+    .cart-item {
+      background-color: #fff3e0;
       border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
     table {
       width: 100%;
@@ -35,90 +50,98 @@
     th, td {
       padding: 12px;
       text-align: center;
-      border: 2px solid #ff9900;
+      border: 2px solid #ff7f32;
+      font-size: 18px;
+    }
+    th {
+      background-color: #ff7f32;
+      color: white;
     }
     .button {
-      background-color: #ff6600;
+      background-color: #ff7f32;
       color: white;
       padding: 12px 20px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       transition: 0.3s;
-      margin: 5px;
+      margin: 10px 5px;
     }
     .button:hover {
-      background-color: #cc5500;
+      background-color: #cc6633;
+    }
+    footer {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #ff7f32;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+    }
+    .total {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .form-input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #ff7f32;
+      border-radius: 5px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
-  <header>Shopping Cart</header>
+  <header>Cart</header>
   <div class="container">
     <h2>Your Cart</h2>
-    <table id="cart-table">
-      <tr>
-        <th>Item</th>
-        <th>Size</th>
-        <th>Price (₹)</th>
-        <th>Quantity</th>
-        <th>Action</th>
-      </tr>
-      <!-- Cart items will be inserted here dynamically -->
-    </table>
+    
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be dynamically populated here -->
+    </div>
 
-    <button class="button" onclick="goBack()">Back to Mango Details</button>
-    <button class="button" onclick="checkout()">Proceed to Checkout</button>
+    <div class="total">
+      Total: ₹<span id="totalPrice">0</span>
+    </div>
+    
+
+    <button class="button" onclick="goBack()">Proceed to Paymentt</button>
   </div>
 
-  <script>
-    // Function to populate the cart
-    function populateCart() {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let cartTable = document.getElementById("cart-table");
+  <footer>*Payment and delivery options are subject to availability.<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
-      if (cart.length === 0) {
-        cartTable.innerHTML += `<tr><td colspan="5">Your cart is empty!</td></tr>`;
-        return;
-      }
+  <script>
+    // Function to load cart from local storage and display cart items
+    function loadCart() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let cartItemsContainer = document.getElementById("cartItems");
+      let totalPrice = 0;
+
+      cartItemsContainer.innerHTML = ''; // Clear the previous cart items
 
       cart.forEach(item => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${item.mango}</td>
-          <td>${item.size}</td>
-          <td>${item.price}</td>
-          <td>${item.quantity}</td>
-          <td><button class="button" onclick="removeItem('${item.mango}', '${item.size}')">Remove</button></td>
+        let itemRow = document.createElement("div");
+        itemRow.classList.add("cart-item");
+        itemRow.innerHTML = `
+          <strong>${item.mango} (${item.size})</strong><br>
+          Price: ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}
         `;
-        cartTable.appendChild(row);
+        cartItemsContainer.appendChild(itemRow);
+        totalPrice += item.price * item.quantity;
       });
+
+      // Update total price
+      document.getElementById("totalPrice").textContent = totalPrice;
     }
 
-    // Function to remove an item from the cart
-    function removeItem(mango, size) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let index = cart.findIndex(item => item.mango === mango && item.size === size);
-
-      if (index !== -1) {
-        cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        populateCart(); // Re-populate the cart after removing
-      }
-    }
-
-    // Navigate back to the details page
     function goBack() {
-      window.location.href = "index.html";
-    }
-
-    // Proceed to checkout
-    function checkout() {
       window.location.href = "customer-information.html";
     }
 
-    // Load the cart when the page loads
-    window.onload = populateCart;
+    // Load cart on page load
+    window.onload = loadCart;
   </script>
 </body>
 </html>
