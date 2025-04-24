@@ -215,6 +215,15 @@
 
     function checkout() {
       const cart = JSON.parse(localStorage.getItem("cart")) || [];
-      if
-::contentReference[oaicite:0]{index=0}
- 
+      if (cart.length === 0) {
+        alert("Your cart is empty. Add some mangoes first!");
+        return;
+      }
+      alert("Redirecting to payment gateway...");
+      window.location.href = "customer-information.html";
+    }
+
+    window.onload = loadCart;
+  </script>
+</body>
+</html>
