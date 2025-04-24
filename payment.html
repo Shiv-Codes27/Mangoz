@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Devgad Mango Details</title>
+  <title>Payment - Devgad Mango</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -30,11 +30,16 @@
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
       text-align: left;
     }
-    img {
-      width: 100%;
-      border-radius: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    .cart-items {
+      margin: 20px 0;
+      text-align: left;
+    }
+    .cart-item {
+      background-color: #fff0e0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
     table {
       width: 100%;
@@ -42,7 +47,7 @@
       border-collapse: collapse;
     }
     th, td {
-      padding: 14px;
+      padding: 12px;
       text-align: center;
       border: 2px solid #ff7f32;
       font-size: 18px;
@@ -72,96 +77,69 @@
       font-size: 16px;
       text-align: center;
     }
-    .mango-item {
-      background-color: #fff0e0;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    .total {
+      font-size: 24px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <header>Devgad Mango Details</header>
+  <header>Devgad Mango - Checkout</header>
   <div class="container">
-    <img src="Devgari.png" alt="Devgad Mango">
-    <h2>Pricing Table</h2>
-    <table>
-      <tr>
-        <th>Size</th>
-        <th>Price (₹/dozen)</th>
-        <th>Action</th>
-      </tr>
-      <tr class="mango-item">
-        <td>Small</td>
-        <td>₹800</td>
-        <td>
-          <button class="button" onclick="addToCart('Devgad Mango', 'Small', 800)">Add to Cart</button>
-          <button class="button" onclick="removeFromCart('Devgad Mango', 'Small')">Remove</button>
-        </td>
-      </tr>
-      <tr class="mango-item">
-        <td>Medium</td>
-        <td>₹900</td>
-        <td>
-          <button class="button" onclick="addToCart('Devgad Mango', 'Medium', 900)">Add to Cart</button>
-          <button class="button" onclick="removeFromCart('Devgad Mango', 'Medium')">Remove</button>
-        </td>
-      </tr>
-      <tr class="mango-item">
-        <td>Large</td>
-        <td>₹1000</td>
-        <td>
-          <button class="button" onclick="addToCart('Devgad Mango', 'Large', 1000)">Add to Cart</button>
-          <button class="button" onclick="removeFromCart('Devgad Mango', 'Large')">Remove</button>
-        </td>
-      </tr>
-    </table>
+    <h2>Review Your Cart</h2>
+    
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be dynamically populated here -->
+    </div>
 
-    <button class="button" onclick="goHome()">Back to Home</button>
-    <button class="button" onclick="goToCart()">Go to Cart 🛒</button>
+    <div class="total">
+      Total: ₹<span id="totalPrice">0</span>
+    </div>
+    
+    <h3>Enter Your Payment Details</h3>
+    <form>
+      <input type="text" placeholder="Full Name" required><br><br>
+      <input type="text" placeholder="Address" required><br><br>
+      <input type="email" placeholder="Email" required><br><br>
+      <input type="tel" placeholder="Phone Number" required><br><br>
+      <button type="submit" class="button">Proceed to Payment</button>
+    </form>
+
+    <button class="button" onclick="goBack()">Back to Cart</button>
   </div>
 
-  <footer>*Rates are subject to vary as per the market trends and stock<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
+  <footer>*Payment and delivery options are subject to availability.<br>Contact Us: 9422695945 | Follow us on Social Media</footer>
 
   <script>
-    function addToCart(mango, size, price) {
+    // Function to load cart from local storage and display cart items
+    function loadCart() {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let existingItem = cart.find(item => item.mango === mango && item.size === size);
+      let cartItemsContainer = document.getElementById("cartItems");
+      let totalPrice = 0;
 
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        cart.push({ mango, size, price, quantity: 1 });
-      }
+      cartItemsContainer.innerHTML = ''; // Clear the previous cart items
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(mango + " (" + size + ") added to cart!");
+      cart.forEach(item => {
+        let itemRow = document.createElement("div");
+        itemRow.classList.add("cart-item");
+        itemRow.innerHTML = `
+          <strong>${item.mango} (${item.size})</strong><br>
+          Price: ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}
+        `;
+        cartItemsContainer.appendChild(itemRow);
+        totalPrice += item.price * item.quantity;
+      });
+
+      // Update total price
+      document.getElementById("totalPrice").textContent = totalPrice;
     }
 
-    function removeFromCart(mango, size) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      let index = cart.findIndex(item => item.mango === mango && item.size === size);
-
-      if (index !== -1) {
-        if (cart[index].quantity > 1) {
-          cart[index].quantity -= 1;
-        } else {
-          cart.splice(index, 1);
-        }
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(mango + " (" + size + ") removed from cart.");
-    }
-
-    function goHome() {
+    function goBack() {
       window.location.href = "index.html";
     }
 
-    function goToCart() {
-      window.location.href = "payment.html";
-    }
+    // Load cart on page load
+    window.onload = loadCart;
   </script>
 </body>
 </html>
